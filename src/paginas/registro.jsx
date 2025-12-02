@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../componentes/autentificador';
 
 function Registro() {
+  // Tu estado visual (en español, como lo diseñaste)
   const [formData, setFormData] = useState({
     nombre: '',
     apellido: '',
@@ -33,7 +33,6 @@ function Registro() {
     setError('');
     setLoading(true);
 
-
     if (formData.password !== formData.confirmPassword) {
       setError('Las contraseñas no coinciden');
       setLoading(false);
@@ -53,12 +52,16 @@ function Registro() {
     }
 
     try {
+      // ADAPTACIÓN IMPORTANTE: 
+      // Mapeamos tus campos (nombre/apellido) a los que Java espera (firstName/lastName)
       await register({
-        nombre: formData.nombre,
-        apellido: formData.apellido,
+        firstName: formData.nombre,
+        lastName: formData.apellido,
+        // Usamos el email como username temporal ya que es requerido
+        username: formData.email.split("@")[0], 
         email: formData.email,
         password: formData.password,
-        telefono: formData.telefono
+        phone: formData.telefono
       });
       navigate('/'); 
     } catch (err) {
@@ -70,7 +73,6 @@ function Registro() {
 
   return (
     <div>
-  
       <div className="auth-container">
         <div className="auth-card">
           <div className="auth-header">
@@ -90,13 +92,9 @@ function Registro() {
                 <div className="form-group">
                   <label htmlFor="nombre">Nombre *</label>
                   <input
-                    type="text"
-                    id="nombre"
-                    name="nombre"
-                    value={formData.nombre}
-                    onChange={handleChange}
-                    className="form-control"
-                    required
+                    type="text" id="nombre" name="nombre"
+                    value={formData.nombre} onChange={handleChange}
+                    className="form-control" required
                   />
                 </div>
               </div>
@@ -104,13 +102,9 @@ function Registro() {
                 <div className="form-group">
                   <label htmlFor="apellido">Apellido *</label>
                   <input
-                    type="text"
-                    id="apellido"
-                    name="apellido"
-                    value={formData.apellido}
-                    onChange={handleChange}
-                    className="form-control"
-                    required
+                    type="text" id="apellido" name="apellido"
+                    value={formData.apellido} onChange={handleChange}
+                    className="form-control" required
                   />
                 </div>
               </div>
@@ -119,24 +113,17 @@ function Registro() {
             <div className="form-group">
               <label htmlFor="email">Email *</label>
               <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="form-control"
-                required
+                type="email" id="email" name="email"
+                value={formData.email} onChange={handleChange}
+                className="form-control" required
               />
             </div>
 
             <div className="form-group">
               <label htmlFor="telefono">Teléfono</label>
               <input
-                type="tel"
-                id="telefono"
-                name="telefono"
-                value={formData.telefono}
-                onChange={handleChange}
+                type="tel" id="telefono" name="telefono"
+                value={formData.telefono} onChange={handleChange}
                 className="form-control"
               />
             </div>
@@ -146,14 +133,9 @@ function Registro() {
                 <div className="form-group">
                   <label htmlFor="password">Contraseña *</label>
                   <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="form-control"
-                    required
-                    minLength="6"
+                    type="password" id="password" name="password"
+                    value={formData.password} onChange={handleChange}
+                    className="form-control" required minLength="6"
                   />
                 </div>
               </div>
@@ -161,13 +143,9 @@ function Registro() {
                 <div className="form-group">
                   <label htmlFor="confirmPassword">Confirmar Contraseña *</label>
                   <input
-                    type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    className="form-control"
-                    required
+                    type="password" id="confirmPassword" name="confirmPassword"
+                    value={formData.confirmPassword} onChange={handleChange}
+                    className="form-control" required
                   />
                 </div>
               </div>
@@ -175,13 +153,9 @@ function Registro() {
 
             <div className="form-check mb-4">
               <input
-                type="checkbox"
-                id="aceptaTerminos"
-                name="aceptaTerminos"
-                checked={formData.aceptaTerminos}
-                onChange={handleChange}
-                className="form-check-input"
-                required
+                type="checkbox" id="aceptaTerminos" name="aceptaTerminos"
+                checked={formData.aceptaTerminos} onChange={handleChange}
+                className="form-check-input" required
               />
               <label htmlFor="aceptaTerminos" className="form-check-label">
                 Acepto los <Link to="/terminos">términos y condiciones</Link> y la <Link to="/privacidad">política de privacidad</Link>
@@ -211,7 +185,6 @@ function Registro() {
           </div>
         </div>
       </div>
-
     </div>
   );
 }

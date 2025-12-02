@@ -1,3 +1,4 @@
+//src/componentes/ProductDetail.jsx
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useCart } from './carritocontext';
@@ -123,15 +124,6 @@ function ProductDetail({ product }) {
                 </span>
               </div>
               
-              <div className="spec-item">
-                <span className="spec-label">Material:</span>
-                <span className="spec-value">{product.specs.material}</span>
-              </div>
-              
-              <div className="spec-item">
-                <span className="spec-label">Color:</span>
-                <span className="spec-value">{product.specs.color}</span>
-              </div>
               
               <div className="spec-item">
                 <span className="spec-label">Disponibilidad:</span>

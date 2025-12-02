@@ -1,37 +1,13 @@
-
-import { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from './autentificador';
 
-function UserMenu() {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+export default function UserMenu() {
+  const { user, logout } = useAuth(); // Importamos estado y función del contexto
 
-
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
-  const handleLogout = () => {
-    logout();
-    setIsOpen(false);
-    navigate('/');
-  };
-
-  
+  // Si NO hay usuario, mostramos botón "Ingresar"
   if (!user) {
     return (
+      
       <div className="d-flex align-items-center">
         <Link to="/ingresar" className="btn btn-outline-success me-2 btn-sign-in">
           <i className="fas fa-sign-in-alt me-2"></i>Ingresar
@@ -43,76 +19,37 @@ function UserMenu() {
     );
   }
 
-
-  const getInitials = () => {
-    return `${user.nombre?.charAt(0) || ''}${user.apellido?.charAt(0) || ''}`.toUpperCase();
-  };
-
+  // Si HAY usuario, mostramos menú desplegable
   return (
-    <div className="user-menu-container position-relative" ref={dropdownRef}>
-      
-      <button
-        className="user-toggle-btn d-flex align-items-center gap-2 bg-transparent border-0 p-2 rounded-2"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-expanded={isOpen}
-        aria-haspopup="true"
+    <div className="dropdown ms-3">
+      <button 
+        className="btn btn-light dropdown-toggle d-flex align-items-center gap-2" 
+        type="button" 
+        data-bs-toggle="dropdown"
       >
-        
-        <div className="user-avatar">
-          {getInitials() || <i className="fas fa-user"></i>}
-        </div>
-        
-        
-        <span className="user-name d-none d-md-block">
-          Hola {user.nombre}
-        </span>
-        
-        <i className={`fas fa-chevron-${isOpen ? 'up' : 'down'} text-muted`}></i>
+        {/* Avatar pequeño si existe, sino icono genérico */}
+        {user.avatar ? (
+           <img src={user.avatar} alt="Avatar" className="rounded-circle" style={{width:24, height:24}} />
+        ) : (
+           <span>👤</span>
+        )}
+        <span>{user.username || user.firstName || "Usuario"}</span>
       </button>
-
       
-      {isOpen && (
-        <div className="user-dropdown-menu show">
-          
-          <div className="user-dropdown-header">
-            <div className="user-info">
-              <div className="user-avatar-large">
-                {getInitials() || <i className="fas fa-user"></i>}
-              </div>
-              <div className="user-details">
-                <div className="user-fullname">{user.nombre} {user.apellido}</div>
-                <div className="user-email">{user.email}</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="dropdown-divider"></div>
-
-        
-          <Link 
-            to="/mi-cuenta" 
-            className="dropdown-item"
-            onClick={() => setIsOpen(false)}
-          >
-            <i className="fas fa-user-circle me-2"></i>
-            Mi Cuenta
-          </Link>
-
-
-          <div className="dropdown-divider"></div>
-
-       
-          <button 
-            className="dropdown-item logout-item"
-            onClick={handleLogout}
-          >
-            <i className="fas fa-sign-out-alt me-2"></i>
-            Cerrar Sesión
-          </button>
-        </div>
-      )}
+      <ul className="dropdown-menu dropdown-menu-end">
+        <li>
+            <Link className="dropdown-item" to="/mi-cuenta">Mi Cuenta</Link>
+        </li>
+        <li><hr className="dropdown-divider" /></li>
+        <li>
+            <button 
+                onClick={logout} 
+                className="dropdown-item text-danger"
+            >
+                Cerrar Sesión
+            </button>
+        </li>
+      </ul>
     </div>
   );
 }
-
-export default UserMenu;

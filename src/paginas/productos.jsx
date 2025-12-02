@@ -1,8 +1,27 @@
-
-import ProductGrid from '../componentes/productosgrid';
-import { products } from '../assets/data';
+import { useEffect, useState } from "react";
+import ProductGrid from '../componentes/productosgrid'; // Tu componente actual
+import { productService } from "../servicios/productoService";
 
 function Productos() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadCatalog();
+  }, []);
+
+  const loadCatalog = async () => {
+    try {
+      // Reutilizamos el servicio para traer todo el catálogo desde la API
+      const data = await productService.getAll();
+      setProducts(data);
+    } catch (error) {
+      console.error("Error al cargar catálogo:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       <div className="page-header">
@@ -11,8 +30,14 @@ function Productos() {
       </div>
       
       <div className="container">
-        <ProductGrid products={products} />
+        {loading ? (
+          <div className="text-center p-5">Cargando catálogo...</div>
+        ) : (
+          <ProductGrid products={products} />
+        )}
       </div>
     </div>
   );
-} export default Productos;
+} 
+
+export default Productos;

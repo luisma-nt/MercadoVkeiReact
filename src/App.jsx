@@ -13,6 +13,7 @@ import Carrito from './paginas/carrito';
 import Ingresar from './paginas/ingresar';
 import Registro from './paginas/registro';
 import MiCuenta from './paginas/cuenta';
+import Admin from './paginas/admin';
 
 
 /*
@@ -32,6 +33,7 @@ function App() {
         
         <Route path='/ingresar' element={<Ingresar />} /> 
         <Route path='/registrar' element={<Registro />} />
+        <Route path='/admin' element={<Admin />} />
 
 
         <Route path='/mi-cuenta' element={<MiCuenta />} />

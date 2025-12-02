@@ -1,95 +1,57 @@
-
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { userService } from '../servicios/usuarioService';
 
 const AuthContext = createContext();
 
-export function AuthProvider({ children }) {
+// --- CONFIGURACIÓN DE SEGURIDAD ---
+// CAMBIA ESTE CORREO POR EL TUYO PARA SER ADMINISTRADOR
+const ADMIN_EMAIL = "luis.manuel.nt@gmail.com"; 
+
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
 
-
+  // Al iniciar, revisamos si hay usuario guardado en el navegador
   useEffect(() => {
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
+    const storedUser = localStorage.getItem('user_session');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
     }
-    setLoading(false);
   }, []);
 
-  const login = (email, password) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const user = users.find(u => u.email === email && u.password === password);
-        
-        if (user) {
-          const userInfo = { ...user };
-          delete userInfo.password;
-          setUser(userInfo);
-          localStorage.setItem('user', JSON.stringify(userInfo));
-          resolve(userInfo);
-        } else {
-          reject(new Error('Email o contraseña incorrectos'));
-        }
-      }, 1000);
-    });
+  // Calculamos si es admin automáticamente
+  const isAdmin = user && user.email === ADMIN_EMAIL;
+
+  const login = async (email, password) => {
+    try {
+      const userData = await userService.login({ email, password });
+      setUser(userData);
+      localStorage.setItem('user_session', JSON.stringify(userData));
+      return true;
+    } catch (error) {
+      throw error;
+    }
   };
 
-  const register = (userData) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        
-   
-        if (users.find(u => u.email === userData.email)) {
-          reject(new Error('El email ya está registrado'));
-          return;
-        }
-
-        const newUser = {
-          id: Date.now(),
-          ...userData,
-          createdAt: new Date().toISOString()
-        };
-
-        users.push(newUser);
-        localStorage.setItem('users', JSON.stringify(users));
-
-        const userInfo = { ...newUser };
-        delete userInfo.password;
-        setUser(userInfo);
-        localStorage.setItem('user', JSON.stringify(userInfo));
-        
-        resolve(userInfo);
-      }, 1000);
-    });
+  const register = async (formData) => {
+    try {
+      await userService.register(formData);
+      return true;
+    } catch (error) {
+      throw error;
+    }
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('user');
-  };
-
-  const value = {
-    user,
-    login,
-    register,
-    logout,
-    loading,
-    isAuthenticated: !!user
+    localStorage.removeItem('user_session');
   };
 
   return (
-    <AuthContext.Provider value={value}>
+    // Pasamos 'isAdmin' a toda la app para que NavBar y Admin lo usen
+    <AuthContext.Provider value={{ user, isAdmin, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   );
-}
+};
 
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth debe ser usado dentro de un AuthProvider');
-  }
-  return context;
-}
+export const useAuth = () => useContext(AuthContext);
