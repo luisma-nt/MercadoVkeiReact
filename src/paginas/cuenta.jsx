@@ -32,7 +32,7 @@ function MiCuenta() {
             <div className="card account-sidebar">
               <div className="card-body text-center">
                 
-                {/* Lógica para mostrar Avatar o Iniciales */}
+              
                 <div className="account-avatar-large mb-3 mx-auto" style={{ background: user.avatar ? 'transparent' : undefined }}>
                   {user.avatar ? (
                     <img 

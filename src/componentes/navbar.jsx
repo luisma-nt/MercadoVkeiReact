@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import CartIcon from './carritoicono';
 import UserMenu from './usuario';
-import { useAuth } from './autentificador'; // <--- 1. Importamos esto
+import { useAuth } from './autentificador'; 
 
 function NavBar() {
-  const { user } = useAuth(); // <--- 2. Obtenemos el usuario
+  const { user } = useAuth();
 
-  // Define aquí el correo de admin para comparar
+
   const ADMIN_EMAIL = "luis.manuel.nt@gmail.com";
 
   return (
@@ -39,7 +39,7 @@ function NavBar() {
               <Link to='/nosotros' className='nav-link'>Nosotros</Link>
             </li>
             
-            {/* --- 3. BOTÓN DE ADMIN (Solo visible para el admin) --- */}
+   
             {user && user.email === ADMIN_EMAIL && (
               <li className="nav-item">
                 <Link to='/admin' className='nav-link text-danger fw-bold'>

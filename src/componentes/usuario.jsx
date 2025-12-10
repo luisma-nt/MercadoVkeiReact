@@ -44,7 +44,7 @@ function UserMenu() {
     return `${user.nombre?.charAt(0) || ''}${user.apellido?.charAt(0) || ''}`.toUpperCase();
   };
 
-  // Función auxiliar para renderizar el avatar o las iniciales
+
   const renderAvatar = (width, height, fontSize) => {
     if (user.avatar) {
       return (
@@ -73,7 +73,7 @@ function UserMenu() {
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
-        {/* Avatar pequeño para el botón del menú */}
+
         <div className="user-avatar" style={{ background: user.avatar ? 'transparent' : undefined }}>
           {renderAvatar(32, 32, '0.8rem')}
         </div>
@@ -90,7 +90,7 @@ function UserMenu() {
           
           <div className="user-dropdown-header">
             <div className="user-info">
-              {/* Avatar grande para el encabezado del dropdown */}
+  
               <div className="user-avatar-large" style={{ background: user.avatar ? 'transparent' : undefined }}>
                 {renderAvatar(48, 48, '1.1rem')}
               </div>
@@ -115,7 +115,7 @@ function UserMenu() {
             Mi Cuenta
           </Link>
 
-          {/* --- NUEVO LINK --- */}
+       
           <Link 
             to="/mis-compras" 
             className="dropdown-item"

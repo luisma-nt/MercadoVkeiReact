@@ -6,7 +6,7 @@ function BlogGrid() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí agregar la lógica para manejar la suscripción
+
     console.log('Email suscrito:', email);
     alert('¡Gracias por suscribirte!');
     setEmail('');

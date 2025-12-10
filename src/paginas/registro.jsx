@@ -11,10 +11,10 @@ function Registro() {
     confirmPassword: '',
     telefono: '',
     aceptaTerminos: false,
-    avatar: '' // <--- NUEVO CAMPO
+    avatar: '' 
   });
   
-  // Estado para la previsualización de la imagen
+
   const [preview, setPreview] = useState(null);
 
   const [loading, setLoading] = useState(false);
@@ -31,11 +31,11 @@ function Registro() {
     }));
   };
 
-  // --- NUEVA FUNCIÓN: Manejar subida de imagen ---
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Validar tamaño (ej: máximo 2MB)
+     
       if (file.size > 2 * 1024 * 1024) {
         alert("La imagen es muy pesada (Máx 2MB)");
         return;
@@ -43,8 +43,8 @@ function Registro() {
 
       const reader = new FileReader();
       reader.onloadend = () => {
-        setFormData(prev => ({ ...prev, avatar: reader.result })); // Guardamos el Base64
-        setPreview(reader.result); // Para mostrarla ahí mismo
+        setFormData(prev => ({ ...prev, avatar: reader.result })); 
+        setPreview(reader.result); 
       };
       reader.readAsDataURL(file);
     }
@@ -68,14 +68,14 @@ function Registro() {
     }
 
     try {
-      // Enviamos el avatar junto con los otros datos
+      
       await register({
         nombre: formData.nombre,
         apellido: formData.apellido,
         email: formData.email,
         password: formData.password,
         telefono: formData.telefono,
-        avatar: formData.avatar // <--- ENVIAMOS EL AVATAR
+        avatar: formData.avatar 
       });
       navigate('/'); 
     } catch (err) {
@@ -98,7 +98,7 @@ function Registro() {
 
           <form onSubmit={handleSubmit} className="auth-form">
             
-            {/* --- NUEVO INPUT DE IMAGEN --- */}
+           
             <div className="text-center mb-4">
               <div 
                 className="mx-auto d-flex align-items-center justify-content-center overflow-hidden mb-2"

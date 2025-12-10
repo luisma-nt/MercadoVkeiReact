@@ -14,8 +14,7 @@ function MisCompras() {
       if (user && user.id) {
         try {
           const data = await getSalesByUserId(user.id);
-          // Ordenamos por fecha (más reciente primero)
-          // Asumiendo que la fecha viene en formato ISO o Timestamp
+
           const sortedData = data.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
           setSales(sortedData);
         } catch (err) {

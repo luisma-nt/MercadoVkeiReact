@@ -1,18 +1,18 @@
-import React, { useState } from 'react'; // Agregamos useState
+import React, { useState } from 'react'; 
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../componentes/carritocontext';
-import { useAuth } from '../componentes/autentificador'; // Necesitamos el usuario
+import { useAuth } from '../componentes/autentificador'; 
 import { createSaleApi } from '../services/api';
 
 function Carrito() {
   const { items, total, removeFromCart, updateQuantity, clearCart } = useCart();
-  const { user } = useAuth(); // Obtener usuario logueado
+  const { user } = useAuth(); 
   const navigate = useNavigate();
   const [processing, setProcessing] = useState(false);
 
-  // ... (El código de renderizado cuando está vacío se mantiene igual) ...
+
   if (items.length === 0) {
-      // ... tu código existente para carrito vacío ...
+  
       return (
         <div>
           <div className="container py-5">
@@ -34,17 +34,16 @@ function Carrito() {
 
     setProcessing(true);
 
-    // 1. Preparar el objeto Sale para el backend
-    // El backend espera: { userId, total, items: [{ productId, quantity, size, price }] }
+
     const saleData = {
       userId: user.id,
       total: total,
       items: items.map(item => ({
-        productId: item.productId, // Asegúrate que en productDetail guardas esto
+        productId: item.productId, 
         productName: item.nombre,
         quantity: item.cantidad,
         size: item.talla,
-        price: item.precioValue || item.precio // Necesitamos el numero, no el string formateado
+        price: item.precioValue || item.precio 
       }))
     };
 
@@ -52,7 +51,7 @@ function Carrito() {
       await createSaleApi(saleData);
       alert('¡Compra realizada con éxito!');
       clearCart();
-      navigate('/'); // O redirigir a un historial de compras
+      navigate('/');
     } catch (error) {
       alert('Error al procesar la compra: ' + error.message);
     } finally {
@@ -67,22 +66,21 @@ function Carrito() {
         
         <div className="row">
           <div className="col-lg-8">
-            {/* ... Tu código de mapeo de items existente ... */}
+           
             {items.map((item) => (
               <div key={item.id} className="card mb-3">
-                 {/* ... Contenido de la tarjeta del producto ... */}
-                 {/* Asegúrate de usar item.imagen, item.nombre, etc. */}
+                
                  <div className="card-body">
                     <div className="row align-items-center">
                         <div className="col-md-2">
-                            {/* Nota: si la imagen es base64 muy larga, esto puede ser lento */}
+                            
                             <img src={item.imagen} alt={item.nombre} className="img-fluid rounded" style={{width:'80px'}}/>
                         </div>
                         <div className="col-md-4">
                              <h5>{item.nombre}</h5>
                              <p className="text-muted">Talla: {item.talla}</p>
                         </div>
-                        {/* ... Resto de columnas (botones cantidad, precio, eliminar) ... */}
+
                         <div className="col-md-3">
                              <button className="btn btn-sm" onClick={() => updateQuantity(item.id, item.cantidad - 1)}>-</button>
                              <span className="mx-2">{item.cantidad}</span>
@@ -107,7 +105,7 @@ function Carrito() {
                   <span className="fw-bold">${total.toLocaleString()}</span>
                 </div>
                 
-                {/* Botón Comprar modificado */}
+
                 <button 
                   className="btn btn-success w-100 mb-2"
                   onClick={handleSubmit}
