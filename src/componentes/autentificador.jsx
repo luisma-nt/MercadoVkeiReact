@@ -8,7 +8,6 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
       setUser(JSON.parse(savedUser));
@@ -18,16 +17,20 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     try {
-      const userData = await loginUserApi(email, password);
+      const userData = await loginUserApi(email, password); // Recibimos 'userData'
       
- 
+      // CORRECCIÓN 1: Usar 'userData' en lugar de 'data'
+      const isAdmin = userData.role === 'ADMIN';
+      
       const userToSave = {
         id: userData.id,
         nombre: userData.firstName,
         apellido: userData.lastName,
         email: userData.email,
         avatar: userData.avatar, 
-        createdAt: userData.dateOfBirth 
+        createdAt: userData.dateOfBirth, 
+        role: userData.role,
+        isAdmin: isAdmin // CORRECCIÓN 2: ¡Guardamos esta propiedad para que el Navbar la lea!
       };
       
       setUser(userToSave);
@@ -42,6 +45,8 @@ export function AuthProvider({ children }) {
     try {
       const newUser = await registerUserApi(userData);
       
+      // CORRECCIÓN 3: Calculamos si es admin también al registrarse
+      const isAdmin = newUser.role === 'ADMIN';
    
       const userToSave = {
         id: newUser.id,
@@ -49,7 +54,9 @@ export function AuthProvider({ children }) {
         apellido: newUser.lastName,
         email: newUser.email,
         avatar: newUser.avatar, 
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        role: newUser.role, // Guardamos el rol
+        isAdmin: isAdmin    // Guardamos el permiso
       };
 
       setUser(userToSave);
