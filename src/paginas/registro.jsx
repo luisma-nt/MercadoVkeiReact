@@ -3,18 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../componentes/autentificador';
 
 function Registro() {
-  const [formData, setFormData] = useState({
-    nombre: '',
-    apellido: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    telefono: '',
-    aceptaTerminos: false,
-    avatar: '' ,
-    adminKey: ''
-  });
+  // --- TUS ESTADOS ACTUALES ---
+  const [nombre, setNombre] = useState('');
+  const [apellido, setApellido] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [telefono, setTelefono] = useState('');
   
+  // --- AGREGA ESTA LÍNEA QUE FALTA: ---
+  const [adminKey, setAdminKey] = useState('');  
 
   const [preview, setPreview] = useState(null);
 
