@@ -1,7 +1,7 @@
 
-const USER_API_URL = "http://localhost:8081/api/users";
-const PRODUCT_API_URL = "http://localhost:8082/api/products";
-const SALE_API_URL = "http://localhost:8083/api/sales";
+const USER_API_URL = "https://marisa-shop-user-service.onrender.com/api/users";
+const PRODUCT_API_URL = "https://marisa-shop-product-service.onrender.com/api/products";
+const SALE_API_URL = "https://marisa-shop.onrender.com/api/sales";
 const formatProduct = (backendProduct) => {
   return {
     id: backendProduct.id,
