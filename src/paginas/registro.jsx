@@ -3,15 +3,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../componentes/autentificador';
 
 function Registro() {
-  // --- TUS ESTADOS ACTUALES ---
-  const [nombre, setNombre] = useState('');
-  const [apellido, setApellido] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [telefono, setTelefono] = useState('');
+  const [formData, setFormData] = useState({
+    nombre: '',
+    apellido: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    telefono: '',
+    aceptaTerminos: false,
+    avatar: '' ,
+    adminKey: ''
+  });
   
-  // --- AGREGA ESTA LÍNEA QUE FALTA: ---
-  const [adminKey, setAdminKey] = useState('');  
 
   const [preview, setPreview] = useState(null);
 
@@ -52,7 +55,7 @@ function Registro() {
     e.preventDefault();
     setError('');
     setLoading(true);
-    const roleAsigned = adminKey === "MARISA_BOSS" ? "ADMIN" : "USER";
+    const roleAsigned = formData.adminKey === "MARISA_BOSS" ? "ADMIN" : "USER";
 
     if (formData.password !== formData.confirmPassword) {
       setError('Las contraseñas no coinciden');
@@ -175,8 +178,9 @@ function Registro() {
             type="password" 
             className="form-control form-control-sm" 
             placeholder="Solo para personal autorizado"
-            value={adminKey}
-            onChange={(e) => setAdminKey(e.target.value)}/>
+            name="adminKey"                  // <--- IMPORTANTE: Debe coincidir con el estado
+            value={formData.adminKey}        // <--- IMPORTANTE: Lee del formData
+            onChange={handleChange}/>
             </div>
 
             <div className="form-check mb-4">
