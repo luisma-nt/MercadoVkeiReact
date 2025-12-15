@@ -118,7 +118,7 @@ export const createSaleApi = async (saleData) => {
 
 export const createProductApi = async (productData) => {
 
-  const response = await fetch("http://localhost:8082/api/products", {
+  const response = await fetch(`${PRODUCT_API_URL}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json' 
@@ -138,7 +138,7 @@ export const createProductApi = async (productData) => {
 
 export const getSalesByUserId = async (userId) => {
 
-  const SALE_API_URL = "http://localhost:8083/api/sales"; 
+  const SALE_API_URL = "https://marisa-shop.onrender.com/api/sales"; 
   
   const response = await fetch(`${SALE_API_URL}/user/${userId}`);
   
@@ -151,7 +151,7 @@ export const getSalesByUserId = async (userId) => {
 
 
 export const updateProductApi = async (id, productData) => {
-  const response = await fetch(`http://localhost:8082/api/products/${id}`, {
+  const response = await fetch(`${PRODUCT_API_URL}/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(productData)
@@ -164,7 +164,7 @@ export const updateProductApi = async (id, productData) => {
 };
 
 export const deleteProductApi = async (id) => {
-  const response = await fetch(`http://localhost:8082/api/products/${id}`, {
+  const response = await fetch(`${PRODUCT_API_URL}/${id}`, {
     method: 'DELETE',
   });
 
