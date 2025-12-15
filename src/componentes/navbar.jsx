@@ -40,13 +40,13 @@ function NavBar() {
             </li>
 
 
-            {isAdmin && (
-              <li className="nav-item">
-                <Link to='/admin' className='nav-link text-danger fw-bold'>
-                  <i className="fas fa-lock me-1"></i> Admin
-                </Link>
-              </li>
-            )}
+            {user && user.isAdmin && (
+                <li className="nav-item">
+                  <Link className="nav-link" to="/admin">
+                    Panel Admin
+                  </Link>
+                </li>
+              )}
             
           </ul>
           
