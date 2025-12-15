@@ -11,7 +11,8 @@ function Registro() {
     confirmPassword: '',
     telefono: '',
     aceptaTerminos: false,
-    avatar: '' 
+    avatar: '' ,
+    adminKey: ''
   });
   
 
@@ -54,6 +55,7 @@ function Registro() {
     e.preventDefault();
     setError('');
     setLoading(true);
+    const roleAsigned = adminKey === "MARISA_BOSS" ? "ADMIN" : "USER";
 
     if (formData.password !== formData.confirmPassword) {
       setError('Las contraseñas no coinciden');
@@ -75,8 +77,11 @@ function Registro() {
         email: formData.email,
         password: formData.password,
         telefono: formData.telefono,
-        avatar: formData.avatar 
+        avatar: formData.avatar,
+        role: roleAsigned
       });
+    alert("Usuario registrado con éxito");
+    navigate('/ingresar');
       navigate('/'); 
     } catch (err) {
       setError(err.message);
@@ -165,6 +170,16 @@ function Registro() {
                   <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} className="form-control" required />
                 </div>
               </div>
+            </div>
+            
+            <div className="mb-3">
+            <label className="form-label text-muted small">Código de Administrador (Opcional)</label>
+            <input 
+            type="password" 
+            className="form-control form-control-sm" 
+            placeholder="Solo para personal autorizado"
+            value={adminKey}
+            onChange={(e) => setAdminKey(e.target.value)}/>
             </div>
 
             <div className="form-check mb-4">

@@ -83,7 +83,8 @@ export const registerUserApi = async (userData) => {
     firstName: userData.nombre,
     lastName: userData.apellido,
     phone: userData.telefono,
-    avatar: userData.avatar 
+    avatar: userData.avatar,
+    role: userData.role
   };
 
   const response = await fetch(`${USER_API_URL}/register`, {

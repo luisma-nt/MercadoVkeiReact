@@ -7,7 +7,7 @@ function NavBar() {
   const { user } = useAuth();
 
 
-  const ADMIN_EMAIL = "luis.manuel.nt@gmail.com";
+  const isAdmin = user && user.role === 'ADMIN';
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -38,9 +38,9 @@ function NavBar() {
             <li className="nav-item">
               <Link to='/nosotros' className='nav-link'>Nosotros</Link>
             </li>
-            
-   
-            {user && user.email === ADMIN_EMAIL && (
+
+
+            {isAdmin && (
               <li className="nav-item">
                 <Link to='/admin' className='nav-link text-danger fw-bold'>
                   <i className="fas fa-lock me-1"></i> Admin
