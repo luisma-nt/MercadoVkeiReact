@@ -17,9 +17,9 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     try {
-      const userData = await loginUserApi(email, password); // Recibimos 'userData'
+      const userData = await loginUserApi(email, password); 
       
-      // CORRECCIÓN 1: Usar 'userData' en lugar de 'data'
+
       const isAdmin = userData.role === 'ADMIN';
       
       const userToSave = {
@@ -30,7 +30,7 @@ export function AuthProvider({ children }) {
         avatar: userData.avatar, 
         createdAt: userData.dateOfBirth, 
         role: userData.role,
-        isAdmin: isAdmin // CORRECCIÓN 2: ¡Guardamos esta propiedad para que el Navbar la lea!
+        isAdmin: isAdmin
       };
       
       setUser(userToSave);
@@ -45,7 +45,7 @@ export function AuthProvider({ children }) {
     try {
       const newUser = await registerUserApi(userData);
       
-      // CORRECCIÓN 3: Calculamos si es admin también al registrarse
+
       const isAdmin = newUser.role === 'ADMIN';
    
       const userToSave = {
@@ -55,8 +55,8 @@ export function AuthProvider({ children }) {
         email: newUser.email,
         avatar: newUser.avatar, 
         createdAt: new Date().toISOString(),
-        role: newUser.role, // Guardamos el rol
-        isAdmin: isAdmin    // Guardamos el permiso
+        role: newUser.role, 
+        isAdmin: isAdmin   
       };
 
       setUser(userToSave);

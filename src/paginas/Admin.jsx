@@ -10,11 +10,11 @@ function AdminPanel() {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]); 
   
-  // Estados para edición
+ 
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
-  // Formulario
+
   const [formData, setFormData] = useState({
     nombre: '',
     descripcion: '',
@@ -25,19 +25,19 @@ function AdminPanel() {
   const [sizes, setSizes] = useState([{ name: 'S', stock: 0 }]);
   const [images, setImages] = useState([]);
 
-  // --- SEGURIDAD ACTUALIZADA ---
+ 
   useEffect(() => {
     if (authLoading) return;
 
     if (!isAuthenticated) {
-      // Si no está logueado, mandar al login
+
       navigate('/ingresar');
     } else if (!user.isAdmin) { 
-      // Si está logueado pero NO es admin (verifica el rol de la BD)
+
       alert("Acceso denegado: Se requieren permisos de administrador.");
       navigate('/');
     } else {
-      // Si es admin, cargar todo
+
       loadProducts(); 
     }
   }, [user, isAuthenticated, authLoading, navigate]);
@@ -51,7 +51,7 @@ function AdminPanel() {
     }
   };
 
-  // --- MANEJADORES DE FORMULARIO ---
+
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -82,7 +82,7 @@ function AdminPanel() {
     setImages(images.filter((_, i) => i !== index));
   };
 
-  // --- LÓGICA DE EDICIÓN Y BORRADO ---
+
 
   const handleEditClick = (product) => {
     setIsEditing(true);
@@ -159,7 +159,7 @@ function AdminPanel() {
     }
   };
 
-  // Protección de renderizado: Si está cargando o no es admin, no mostrar nada
+ 
   if (authLoading || !user || !user.isAdmin) return null;
 
   return (
@@ -169,7 +169,7 @@ function AdminPanel() {
         <span className="badge bg-danger">Modo Administrador</span>
       </div>
 
-      {/* FORMULARIO DE CREACIÓN / EDICIÓN */}
+
       <div className="card mb-5 shadow-sm">
         <div className="card-header bg-dark text-white">
           <h4 className="mb-0">{isEditing ? 'Editar Producto' : 'Nuevo Producto'}</h4>
@@ -177,7 +177,7 @@ function AdminPanel() {
         <div className="card-body">
           <form onSubmit={handleSubmit}>
             <div className="row">
-              {/* Nombre */}
+
               <div className="col-md-6 mb-3">
                 <label className="form-label">Nombre del Producto</label>
                 <input
@@ -190,7 +190,7 @@ function AdminPanel() {
                 />
               </div>
 
-              {/* Precio */}
+           
               <div className="col-md-3 mb-3">
                 <label className="form-label">Precio</label>
                 <input
@@ -203,25 +203,21 @@ function AdminPanel() {
                 />
               </div>
 
-              {/* Categoría */}
+              
               <div className="col-md-3 mb-3">
                 <label className="form-label">Categoría</label>
-                <select 
-                  className="form-select"
+                <input
+                  type="text"
+                  className="form-control"
                   name="categoria"
                   value={formData.categoria}
                   onChange={handleInputChange}
-                >
-                  <option value="">Seleccionar...</option>
-                  <option value="Ropa">Ropa</option>
-                  <option value="Accesorios">Accesorios</option>
-                  <option value="Música">Música</option>
-                  <option value="Calzado">Calzado</option>
-                </select>
+                  required
+                />
               </div>
             </div>
 
-            {/* Descripción */}
+
             <div className="mb-3">
               <label className="form-label">Descripción</label>
               <textarea
@@ -233,7 +229,7 @@ function AdminPanel() {
               ></textarea>
             </div>
 
-            {/* Tallas y Stock */}
+      
             <div className="mb-3">
               <label className="form-label">Tallas y Stock</label>
               {sizes.map((size, index) => (
@@ -270,7 +266,7 @@ function AdminPanel() {
               </button>
             </div>
 
-            {/* Imágenes */}
+ 
             <div className="mb-4">
               <label className="form-label">Imágenes</label>
               <input 
@@ -302,7 +298,7 @@ function AdminPanel() {
               </div>
             </div>
 
-            {/* Botones de Acción */}
+       
             <div className="d-flex gap-2">
               <button type="submit" className="btn btn-primary" disabled={loading}>
                 {loading ? 'Guardando...' : (isEditing ? 'Actualizar Producto' : 'Crear Producto')}
@@ -318,7 +314,7 @@ function AdminPanel() {
         </div>
       </div>
 
-      {/* LISTA DE PRODUCTOS EXISTENTES */}
+  
       <h3 className="mb-3">Inventario Actual</h3>
       <div className="table-responsive">
         <table className="table table-striped table-hover align-middle">
