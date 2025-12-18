@@ -14,7 +14,7 @@ function NavBar() {
       <div className="container">
         <Link to='/' className="navbar-brand d-flex align-items-center">
           <img 
-            src="https://cdnx.jumpseller.com/yumestore/image/16583786/resize/610/610?1656871342.jpg" 
+            src="Voyage.ico" 
             width="30" 
             height="30" 
             alt="Logo" 
