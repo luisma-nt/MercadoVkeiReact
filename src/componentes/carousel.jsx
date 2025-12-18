@@ -5,7 +5,7 @@ function Carousel({ images = [] }) {
 
   const defaultImages = [
     {
-      src: "https://energeek.cl/wp-content/uploads/2025/08/GzWv89kbMAAFpoE.webp",
+      src: "https://i0.wp.com/glamscure.com/wp-content/uploads/2025/12/glamscure2026-34.png",
       alt: "Productos destacados"
     },
     {
